@@ -18,12 +18,15 @@ steps:
 - name: node
   entrypoint: npm
   args: ['install']
+  dir: 'node-example-npm'
 # Run tests
 - name: node
   entrypoint: npm
   args: ['test']
+  dir: 'node-example-npm'
 # Run custom commands
 - name: node
   entrypoint: npm
   args: ['run', 'build']
+  dir: 'node-example-npm'
 # [END cloudbuild_npm_node]
