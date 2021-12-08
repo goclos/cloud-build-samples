@@ -8,6 +8,9 @@
     "test": "mocha test --exit",
     "build": "mocha test --exit"
   },
+  "engines": {
+    "node": ">=16.0.0"
+  },
   "author": "",
   "license": "ISC",
   "dependencies": {

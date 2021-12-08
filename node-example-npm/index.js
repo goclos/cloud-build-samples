@@ -22,7 +22,8 @@ app.get('/', (req, res) => {
         res.send('Hello World!');
     });
 
-const port = parseInt(process.env.PORT) || 3000;
+const port = parseInt(process.env.PORT) || 8080;
+
 const server = app.listen(port, () => {
         console.log('listening on port %s.\n', server.address().port);
     });
