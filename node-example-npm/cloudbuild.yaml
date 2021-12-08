@@ -32,5 +32,6 @@ steps:
 # [END cloudbuild_npm_node]
 - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
   entrypoint: 'bash'
-  args: ['-c', 'gcloud config set app/cloud_build_timeout 1600 && gcloud app deploy node-example-npm/app.yaml']
+  args: ['-c', 'gcloud config set app/cloud_build_timeout 1600 && gcloud app deploy']
+  dir: 'node-example-npm'
 timeout: '1600s'
