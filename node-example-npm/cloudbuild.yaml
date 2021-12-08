@@ -31,7 +31,8 @@ steps:
   dir: 'node-example-npm'
 # [END cloudbuild_npm_node]
 - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
-  entrypoint: 'bash'
-  args: ['-c', 'gcloud app deploy']
+  entrypoint: 'gcloud'
+  timeout: 240s
+  args: ['app', 'deploy']
   dir: 'node-example-npm'
 timeout: '1600s'
