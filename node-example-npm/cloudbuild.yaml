@@ -31,13 +31,13 @@ steps:
   dir: 'node-example-npm'
 # [END cloudbuild_npm_node]
 #copy app to subdirectory
-- name: 'gcr.io/cloud-builders/gcloud'
-  entrypoint: 'bash'
-  args: ['mkdir', 'app','&&','cp', 'app.yaml','app/', '&&', 'cp', 'index.js', 'app/']
-  dir: 'node-example-npm'
+#- name: 'gcr.io/cloud-builders/gcloud'
+#  entrypoint: 'bash'
+#  args: ['mkdir', 'app','&&','cp', 'app.yaml','app/', '&&', 'cp', 'index.js', 'app/']
+#  dir: 'node-example-npm'
 #Deploy on App Engine
 - name: 'gcr.io/cloud-builders/gcloud'
   timeout: 240s
-  args: ['app', 'deploy', '[node-example-npm/app/app.yaml]']
+  args: ['app', 'deploy']
   dir: 'node-example-npm'
 timeout: '1600s'
