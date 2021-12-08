@@ -30,9 +30,14 @@ steps:
   args: ['run', 'build']
   dir: 'node-example-npm'
 # [END cloudbuild_npm_node]
-- name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
-  entrypoint: 'gcloud'
+#copy app to subdirectory
+- name: 'gcr.io/cloud-builders/gcloud'
+  entrypoint: 'bash'
+  args: ['mkdir', 'app','&&','cp', 'app.yaml','app/', '&&', 'cp', 'index.js', 'app/']
+  dir: 'node-example-npm'
+#Deploy on App Engine
+- name: 'gcr.io/cloud-builders/gcloud'
   timeout: 240s
-  args: ['app', 'deploy']
+  args: ['app', 'deploy', '[node-example-npm/app/app.yaml]']
   dir: 'node-example-npm'
 timeout: '1600s'
