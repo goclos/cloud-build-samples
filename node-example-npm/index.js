@@ -15,10 +15,15 @@
  */
 
 const express = require('express');
+require('dotenv').config();
+
+export const MY_SECRET_KEY = process.env.cloudbuildyaml;
+
+console.log(MY_SECRET_KEY);
 
 const app = express();
 const zmienna = 1;
-const zmiennaSrodowiskowa = (process.env.test) || 'nie zdefiniowano';
+const zmiennaSrodowiskowa = (process.env.cloudbuildyaml) || 'nie zdefiniowano';
 app.get('/', (req, res) => {
         res.send('Hello World!' + zmiennaSrodowiskowa.toString() );
     });

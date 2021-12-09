@@ -19,16 +19,23 @@ steps:
   entrypoint: npm
   args: ['install']
   dir: 'node-example-npm'
-# Run tests
+#Add .env file
 - name: node
   entrypoint: npm
-  args: ['test']
-  dir: 'node-example-npm'
+  args: ["run", "create-env"]
+  env:
+    - 'cloudbuildyaml=qwerty'
+# Run tests
+#- name: node
+#  entrypoint: npm
+#  args: ['test']
+#  dir: 'node-example-npm'
 # Run custom commands
 - name: node
   entrypoint: npm
   args: ['run', 'build']
   dir: 'node-example-npm'
+  
 # [END cloudbuild_npm_node]
 #copy app to subdirectory
 #- name: 'gcr.io/cloud-builders/gcloud'
@@ -37,8 +44,6 @@ steps:
 #  dir: 'node-example-npm'
 #Deploy on App Engine
 - name: 'gcr.io/cloud-builders/gcloud'
-  env:
-  - 'test=zmienna z Cloudbuild.yaml'
   timeout: 240s
   args: ['app', 'deploy']
   dir: 'node-example-npm'
