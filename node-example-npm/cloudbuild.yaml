@@ -26,6 +26,7 @@ steps:
   env:
     - 'cloudbuildyaml=qwerty'
     - 'PORT=8080'
+    - 'haslo=$$haslo'
   dir: "node-example-npm"
 # Run tests
 #- name: node
@@ -49,4 +50,8 @@ steps:
   timeout: 240s
   args: ['app', 'deploy']
   dir: 'node-example-npm'
+availableSecrets:
+  secretManager:
+  - versionName: projects/sb-fotc-cloud-build/secrets/bardzoWazneHaslo/versions/latest
+    env: haslo
 timeout: '1600s'

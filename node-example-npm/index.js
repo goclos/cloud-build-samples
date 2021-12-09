@@ -25,7 +25,7 @@ const app = express();
 
 
 app.get('/', (req, res) => {
-        res.send('Hello World!' + zmiennaSrodowiskowa.toString() );
+        res.send('Hello World! ' + 'cloudbuildyaml: ' + zmiennaSrodowiskowa.toString() + 'zmienna z secret managera: '  + 'haslo' );
     });
 
 const port = parseInt(process.env.PORT) || 8080;
