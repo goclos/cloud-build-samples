@@ -17,7 +17,7 @@
 const express = require('express');
 
 const app = express();
-
+const zmienna = 1;
 const zmiennaSrodowiskowa = (process.env.test) || 'nie zdefiniowano';
 app.get('/', (req, res) => {
         res.send('Hello World!' + zmiennaSrodowiskowa.toString() );
