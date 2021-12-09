@@ -25,6 +25,7 @@ steps:
   args: ["run", "create-env"]
   env:
     - 'cloudbuildyaml=qwerty'
+  dir: "node-example-npm"
 # Run tests
 #- name: node
 #  entrypoint: npm
