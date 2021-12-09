@@ -17,7 +17,7 @@
 const express = require('express');
 require('dotenv').config();
 
-export const MY_SECRET_KEY = process.env.cloudbuildyaml;
+const MY_SECRET_KEY = process.env.cloudbuildyaml;
 
 console.log(MY_SECRET_KEY);
 
