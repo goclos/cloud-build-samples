@@ -52,6 +52,6 @@ steps:
   dir: 'node-example-npm'
 availableSecrets:
   secretManager:
-  - versionName: projects/sb-fotc-cloud-build/secrets/bardzoWazneHaslo/versions/latest
+  - versionName: projects/sb-fotc-cloud-build/secrets/bardzoWazneHaslo/versions/1
     env: haslo
 timeout: '1600s'
