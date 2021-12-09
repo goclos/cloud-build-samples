@@ -17,17 +17,16 @@ steps:
 # Install dependencies
 - name: node
   entrypoint: npm
-  args: ['install', "&&","run", "create-env" ]
-  env:
-    - 'cloudbuildyaml=qwerty'
+  args: ['install']
   dir: 'node-example-npm'
 #Add .env file
-#- name: node
-#  entrypoint: npm
-#  args: ["run", "create-env"]
-#  env:
-#    - 'cloudbuildyaml=qwerty'
-#  dir: "node-example-npm"
+- name: node
+  entrypoint: npm
+  args: ["run", "create-env"]
+  env:
+    - 'cloudbuildyaml=qwerty'
+    - 'PORT=8080'
+  dir: "node-example-npm"
 # Run tests
 #- name: node
 #  entrypoint: npm

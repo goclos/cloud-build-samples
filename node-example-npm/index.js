@@ -17,13 +17,13 @@
 const express = require('express');
 require('dotenv').config();
 
-const MY_SECRET_KEY = process.env.cloudbuildyaml;
+const zmiennaSrodowiskowa = (process.env.cloudbuildyaml) || 'nie zdefiniowano';
 
-console.log(MY_SECRET_KEY);
+console.log(zmiennaSrodowiskowa);
 
 const app = express();
-const zmienna = 1;
-const zmiennaSrodowiskowa = (process.env.cloudbuildyaml) || 'nie zdefiniowano';
+
+
 app.get('/', (req, res) => {
         res.send('Hello World!' + zmiennaSrodowiskowa.toString() );
     });

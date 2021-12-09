@@ -1,2 +1,3 @@
 .DS_Store
 node-example-npm/node_modules/*
+node-example-npm/cloudbuild.yaml
