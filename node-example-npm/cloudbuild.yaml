@@ -37,6 +37,8 @@ steps:
 #  dir: 'node-example-npm'
 #Deploy on App Engine
 - name: 'gcr.io/cloud-builders/gcloud'
+  env:
+  - 'test=zmienna z Cloudbuild.yaml'
   timeout: 240s
   args: ['app', 'deploy']
   dir: 'node-example-npm'
