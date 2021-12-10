@@ -1,83 +1,84 @@
-  # Copyright 2020 Google LLC
-  #
-  # Licensed under the Apache License, Version 2.0 (the "License");
-  # you may not use this file except in compliance with the License.
-  # You may obtain a copy of the License at
-  #
-  #      http://www.apache.org/licenses/LICENSE-2.0
-  #
-  # Unless required by applicable law or agreed to in writing, software
-  # distributed under the License is distributed on an "AS IS" BASIS,
-  # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  # See the License for the specific language governing permissions and
-  # limitations under the License.
+    # Copyright 2020 Google LLC
+    #
+    # Licensed under the Apache License, Version 2.0 (the "License");
+    # you may not use this file except in compliance with the License.
+    # You may obtain a copy of the License at
+    #
+    #      http://www.apache.org/licenses/LICENSE-2.0
+    #
+    # Unless required by applicable law or agreed to in writing, software
+    # distributed under the License is distributed on an "AS IS" BASIS,
+    # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    # See the License for the specific language governing permissions and
+    # limitations under the License.
 
-  # [START cloudbuild_npm_node]
-  steps:
-  # Install dependencies
-  - name: node
-    entrypoint: npm
-    args: ['install']
-    dir: 'node-example-npm'
+    # [START cloudbuild_npm_node]
+    steps:
+    # Install dependencies
+    - name: node
+      entrypoint: npm
+      args: ['install']
+      dir: 'node-example-npm'
 
-  - name: node
-    entrypoint: npm
-    args: ["run", "create-env"]
-    env:
-      - 'cloudbuildyaml=qwerty'
-      - 'PORT=8080'
-    dir: "node-example-npm"
-  # Run tests
-  #- name: node
-  #  entrypoint: npm
-  #  args: ['test']
-  #  dir: 'node-example-npm'
-  # Run custom commands
-  - name: node
-    entrypoint: npm
-    args: ['run', 'build']
-    dir: 'node-example-npm'
+    - name: node
+      entrypoint: npm
+      args: ["run", "create-env"]
+      env:
+        - 'cloudbuildyaml=qwerty'
+        - 'PORT=8080'
+      dir: "node-example-npm"
+    # Run tests
+    #- name: node
+    #  entrypoint: npm
+    #  args: ['test']
+    #  dir: 'node-example-npm'
+    # Run custom commands
+    - name: node
+      entrypoint: npm
+      args: ['run', 'build']
+      dir: 'node-example-npm'
+      
+    # [END cloudbuild_npm_node]
+
+    #Deploy on App Engine default service:
+    - name: "gcr.io/cloud-builders/gcloud"
+      secretEnv: ['HASLO2']
+      entrypoint: 'bash'   args: 
+      - -c
+      - |
+        echo $'\n  haslo: '$$HASLO2 >> app.yaml
+        gcloud app deploy
+      dir: 'node-example-npm'
+
+      
+    #Deploy on App Engine Service2:
+    - name: "gcr.io/cloud-builders/gcloud"
+      secretEnv: ['HASLO2']
+      entrypoint: 'bash'   args: 
+      - -c
+      - |
+        echo $'\n  haslo: '$$HASLO2 >> app.yaml
+        gcloud app deploy
+      dir: 'node-example-npm2'
+
+    #Deploy dispatch:
+    - name: "gcr.io/cloud-builders/gcloud"
+      entrypoint: 'bash'   args: 
+      - -c
+      - |
+        echo $'dispatch:' >> dispatch.yaml
+        echo $'  - url: "*/*"' >> dispatch.yaml
+        echo $'    service: "default"' >> dispatch.yaml
+        echo $'  - url: "*/service2"' >> dispatch.yaml
+        echo $'    service: "service2"' >> dispatch.yaml
+        cat dispatch.yaml
+        gcloud app deploy dispatch.yaml
+      dir: 'node-example-npm2'
+
+    #Secret manager
+    availableSecrets:
+      secretManager:
+      - versionName: "projects/53812039779/secrets/bardzoWazneHaslo/versions/1"
+        env: "HASLO2"
     
-  # [END cloudbuild_npm_node]
-
-  #Deploy on App Engine default service:
-  - name: "gcr.io/cloud-builders/gcloud"
-    secretEnv: ['HASLO2']
-    entrypoint: 'bash'   args: 
-    - -c
-    - |
-      echo $'\n  haslo: '$$HASLO2 >> app.yaml
-      gcloud app deploy
-    dir: 'node-example-npm'
-
-    
-  #Deploy on App Engine Service2:
-  - name: "gcr.io/cloud-builders/gcloud"
-    secretEnv: ['HASLO2']
-    entrypoint: 'bash'   args: 
-    - -c
-    - |
-      echo $'\n  haslo: '$$HASLO2 >> app.yaml
-      gcloud app deploy
-    dir: 'node-example-npm2'
-
-  #Deploy dispatch:
-  - name: "gcr.io/cloud-builders/gcloud"
-    entrypoint: 'bash'   args: 
-    - -c
-    - |
-      echo $'dispatch:' >> dispatch.yaml
-      echo $'  - url: "*/*"' >> dispatch.yaml
-      echo $'  service: "default"' >> dispatch.yaml
-      echo $'  - url: "*/service2"' >> dispatch.yaml
-      echo $'  service: "service2"' >> dispatch.yaml
-      gcloud app deploy dispatch.yaml
-    dir: 'node-example-npm2'
-
-  #Secret manager
-  availableSecrets:
-    secretManager:
-    - versionName: "projects/53812039779/secrets/bardzoWazneHaslo/versions/1"
-      env: "HASLO2"
-   
-  timeout: '1600s'
+    timeout: '1600s'

@@ -29,6 +29,10 @@ app.get('/', (req, res) => {
         res.send('Hello World! '+ " SERVICE2 " + 'cloudbuildyaml: ' + zmiennaSrodowiskowa.toString() + 'zmienna z secret managera: '  + haslo.toString());
     });
 
+app.get('/service2', (req, res) => {
+        res.send('Hello World! '+ " SERVICE2 " + 'cloudbuildyaml: ' + zmiennaSrodowiskowa.toString() + 'zmienna z secret managera: '  + haslo.toString());
+    });
+
 const port = parseInt(process.env.PORT) || 8080;
 
 const server = app.listen(port, () => {
