@@ -17,16 +17,17 @@
     # Install dependencies
     - name: node
       entrypoint: npm
-      args: ['install']
+      args: ['install','--ignore-engines']
       dir: 'node-example-npm'
 
-    - name: node
-      entrypoint: npm
-      args: ["run", "create-env"]
-      env:
-        - 'cloudbuildyaml=qwerty'
-        - 'PORT=8080'
-      dir: "node-example-npm"
+    #Dodawanie zmiennych w pliku .env
+    #- name: node
+    #  entrypoint: npm
+    #  args: ["run", "create-env"]
+    #  env:
+    #    - 'cloudbuildyaml=qwerty'
+    #    - 'PORT=8080'
+    #  dir: "node-example-npm"
     # Run tests
     #- name: node
     #  entrypoint: npm
@@ -46,20 +47,21 @@
       entrypoint: 'bash'   args: 
       - -c
       - |
-        echo $'\n  haslo: '$$HASLO2 >> app.yaml
+        echo $'haslo='$$HASLO2 >> .env
+        echo $'\nhasloo='$$HASLO2 >> .env
+        cat .env
         gcloud app deploy
       dir: 'node-example-npm'
-
       
     #Deploy on App Engine Service2:
-    - name: "gcr.io/cloud-builders/gcloud"
-      secretEnv: ['HASLO2']
-      entrypoint: 'bash'   args: 
-      - -c
-      - |
-        echo $'\n  haslo: '$$HASLO2 >> app.yaml
-        gcloud app deploy
-      dir: 'node-example-npm2'
+    #- name: "gcr.io/cloud-builders/gcloud"
+    #  secretEnv: ['HASLO2']
+    #  entrypoint: 'bash'   args: 
+    #  - -c
+    #  - |
+    #    echo $'\n  haslo: '$$HASLO2 >> app.yaml
+    #    gcloud app deploy
+    #  dir: 'node-example-npm2'
 
     #Deploy dispatch:
     - name: "gcr.io/cloud-builders/gcloud"
@@ -69,16 +71,17 @@
         echo $'dispatch:' >> dispatch.yaml
         echo $'  - url: "*/*"' >> dispatch.yaml
         echo $'    service: "default"' >> dispatch.yaml
-        echo $'  - url: "*/service2/*"' >> dispatch.yaml
+        echo $'  - url: "*/service2/*"' >> dispatch.yaml  
         echo $'    service: "service2"' >> dispatch.yaml
         cat dispatch.yaml
         gcloud app deploy dispatch.yaml
-      dir: 'node-example-npm2'
+      dir: 'node-example-npm'
 
     #Secret manager
     availableSecrets:
       secretManager:
       - versionName: "projects/53812039779/secrets/bardzoWazneHaslo/versions/1"
         env: "HASLO2"
+
     
     timeout: '1600s'

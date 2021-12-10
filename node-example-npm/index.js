@@ -19,6 +19,7 @@ require('dotenv').config();
 
 const zmiennaSrodowiskowa = (process.env.cloudbuildyaml) || 'nie zdefiniowano zmiennej w cloud built ';
 const haslo = (process.env.haslo) || 'nie zdefiniowano hasla';
+const hasloo = (process.env.hasloo) || 'nie zdefiniowano hasla oo';
 
 console.log(zmiennaSrodowiskowa);
 
@@ -26,7 +27,8 @@ const app = express();
 
 
 app.get('/', (req, res) => {
-        res.send('Hello World! ' + 'cloudbuildyaml: ' + zmiennaSrodowiskowa.toString() + 'zmienna z secret managera: '  + haslo.toString());
+        //res.send('Hello World! ' + 'cloudbuildyaml: ' + zmiennaSrodowiskowa.toString() + 'zmienna z secret managera: '  + haslo.toString() + hasloo.toString());
+        res.json({haslo,hasloo})
     });
 
 const port = parseInt(process.env.PORT) || 8080;
