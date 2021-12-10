@@ -69,7 +69,7 @@
         echo $'dispatch:' >> dispatch.yaml
         echo $'  - url: "*/*"' >> dispatch.yaml
         echo $'    service: "default"' >> dispatch.yaml
-        echo $'  - url: "*/service2"' >> dispatch.yaml
+        echo $'  - url: "*/service2/*"' >> dispatch.yaml
         echo $'    service: "service2"' >> dispatch.yaml
         cat dispatch.yaml
         gcloud app deploy dispatch.yaml
