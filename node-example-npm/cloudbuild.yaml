@@ -19,15 +19,13 @@
     entrypoint: npm
     args: ['install']
     dir: 'node-example-npm'
-  #Add .env file
+
   - name: node
     entrypoint: npm
     args: ["run", "create-env"]
     env:
       - 'cloudbuildyaml=qwerty'
       - 'PORT=8080'
-      - 'haslo=$$HASLO2'
-    secretEnv: ['HASLO2']
     dir: "node-example-npm"
   # Run tests
   #- name: node
@@ -41,18 +39,45 @@
     dir: 'node-example-npm'
     
   # [END cloudbuild_npm_node]
-  #copy app to subdirectory
-  #- name: 'gcr.io/cloud-builders/gcloud'
-  #  entrypoint: 'bash'
-  #  args: ['mkdir', 'app','&&','cp', 'app.yaml','app/', '&&', 'cp', 'index.js', 'app/']
-  #  dir: 'node-example-npm'
-  #Deploy on App Engine
-  - name: 'gcr.io/cloud-builders/gcloud'
-    timeout: 240s
-    args: ['app', 'deploy']
+
+  #Deploy on App Engine default service:
+  - name: "gcr.io/cloud-builders/gcloud"
+    secretEnv: ['HASLO2']
+    entrypoint: 'bash'   args: 
+    - -c
+    - |
+      echo $'\n  haslo: '$$HASLO2 >> app.yaml
+      gcloud app deploy
     dir: 'node-example-npm'
+
+    
+  #Deploy on App Engine Service2:
+  - name: "gcr.io/cloud-builders/gcloud"
+    secretEnv: ['HASLO2']
+    entrypoint: 'bash'   args: 
+    - -c
+    - |
+      echo $'\n  haslo: '$$HASLO2 >> app.yaml
+      gcloud app deploy
+    dir: 'node-example-npm2'
+
+  #Deploy dispatch:
+  - name: "gcr.io/cloud-builders/gcloud"
+    entrypoint: 'bash'   args: 
+    - -c
+    - |
+      echo $'dispatch:' >> dispatch.yaml
+      echo $'  - url: "*/*"' >> dispatch.yaml
+      echo $'  service: "default"' >> dispatch.yaml
+      echo $'  - url: "*/service2"' >> dispatch.yaml
+      echo $'  service: "service2"' >> dispatch.yaml
+      gcloud app deploy dispatch.yaml
+    dir: 'node-example-npm2'
+
+  #Secret manager
   availableSecrets:
     secretManager:
-    - versionName: projects/53812039779/secrets/bardzoWazneHaslo/versions/1
-      env: HASLO2
+    - versionName: "projects/53812039779/secrets/bardzoWazneHaslo/versions/1"
+      env: "HASLO2"
+   
   timeout: '1600s'
